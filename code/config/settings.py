@@ -4,9 +4,10 @@ from code.db.alchemy_db import db
 from flask_jwt_extended import JWTManager
 
 def add_app_settings(app):
-	secret_key = 'family-tree-secret-key'
+	secret_key = 'hZ5vo1y39Md2BUf9YztpTs0WYkJnWDKs'
 	app.config['JWT_SECRET_KEY'] = secret_key
 	app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', f"sqlite:///{db_dir_path}/data.db")
+	print(app.config['SQLALCHEMY_DATABASE_URI'])
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 	return app
