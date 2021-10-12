@@ -1,6 +1,7 @@
 from flask_restful import Api
 from code.resources.user import UserRegister, User, UserLogin
 from code.resources.city import CityRegister, CityQuery
+from code.resources.movie import MovieRegister, MovieQuery
 
 def initialize_urls(app):
 	api = Api(app)
@@ -13,5 +14,9 @@ def initialize_urls(app):
 	#City APIs
 	api.add_resource(CityRegister, '/city')
 	api.add_resource(CityQuery, '/city/<identifier>')
+
+	#Movie APIs
+	api.add_resource(MovieRegister, '/movie')
+	api.add_resource(MovieQuery, '/movie/<identifier>')
 
 	return app

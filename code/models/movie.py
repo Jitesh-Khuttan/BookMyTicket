@@ -5,12 +5,12 @@ class Movie(db.Model):
 
     __tablename__ = "movie"
     movie_id = db.Column(db.Integer, primary_key=True)
-    movie_name = db.Column(db.String(60), nullable=False)
-    description = db.Column(db.Integer, nullable=False)
+    movie_name = db.Column(db.String(30), nullable=False)
+    description = db.Column(db.String(60), nullable=False)
     cities = db.relationship("CityMovieAssociation", back_populates="movie")
 
     def to_json(self):
-        return {"id": self.movie_id, "name": self.movie_name, "description": self.description}
+        return {"id": self.movie_id, "movie_name": self.movie_name, "description": self.description}
 
     def add_to_db(self):
         db.session.add(self)
