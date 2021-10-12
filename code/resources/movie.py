@@ -1,4 +1,3 @@
-import re
 from flask_restful import Resource
 from code.models.movie import Movie
 from flask_jwt_extended import jwt_required

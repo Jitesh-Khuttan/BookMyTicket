@@ -28,3 +28,14 @@ def get_movie_parser(is_post=False):
 		_movie_parser.add_argument('movie_id', type=int, required=True, help="Please provide movie id.")
 
 	return _movie_parser
+
+def get_cinema_parser(is_post=False):	
+	_cinema_parser = reqparse.RequestParser()
+	_cinema_parser.add_argument('cinema_name', type=str, required=is_post, help="Please provide the cinema name (60 chars max).")
+	_cinema_parser.add_argument('total_screens', type=int, required=is_post, help="Please provide total screens.")
+	_cinema_parser.add_argument('city_id', type=int, required=is_post, help="Please provide city id of city where cinema exists.")
+
+	if not is_post:
+		_cinema_parser.add_argument('cinema_id', type=int, required=True, help="Please provide cinema id.")
+
+	return _cinema_parser

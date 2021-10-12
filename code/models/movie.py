@@ -10,7 +10,7 @@ class Movie(db.Model):
     cities = db.relationship("CityMovieAssociation", back_populates="movie")
 
     def to_json(self):
-        return {"id": self.movie_id, "movie_name": self.movie_name, "description": self.description}
+        return {"movie_id": self.movie_id, "movie_name": self.movie_name, "description": self.description}
 
     def add_to_db(self):
         db.session.add(self)
