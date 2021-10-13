@@ -5,4 +5,3 @@ Flask-SQLAlchemy
 flask-jwt-extended
 uwsgi
 psycopg2
-cryptography
