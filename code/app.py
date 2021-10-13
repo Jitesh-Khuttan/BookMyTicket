@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from code.config.settings import add_app_settings, initialize_database, initialize_jwt, add_jwt_callbacks
-from urls import initialize_urls
+from code.urls import initialize_urls
 from code.models.cinema import Cinema
 from code.models.city import City
 from code.models.movie import Movie
