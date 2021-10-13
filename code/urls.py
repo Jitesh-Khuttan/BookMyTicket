@@ -5,9 +5,13 @@ from code.resources.movie import MovieRegister, MovieQuery
 from code.resources.cinema import CinemaRegister, CinemaQuery
 from code.resources.city_movie_association import ActivateMovieInCity, DeactivateMovieInCity
 from code.resources.booking import ActivateMovieCinema, BookTicket
+from code.resources.root import Root
 
 def initialize_urls(app):
 	api = Api(app)
+
+	#Root API
+	api.add_resource(Root, '/')
 
 	#User APIs
 	api.add_resource(UserRegister, '/user/register')
