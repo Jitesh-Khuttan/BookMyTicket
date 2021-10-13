@@ -10,13 +10,24 @@ class City(db.Model):
     cinemas = db.relationship("Cinema", backref="city", lazy=True)
     movies = db.relationship("CityMovieAssociation", back_populates="city")
 
-    def to_json(self):
-        return {
+    def to_json(self, cinema_info=True, movie_info=True):
+        result = {
             "city_id": self.city_id,
             "city_name": self.city_name,
             "pincode": self.pincode,
-            "cinemas": [c.to_json(city_info=False) for c in self.cinemas],
         }
+
+        if cinema_info:
+            result.update({
+                "cinemas": [c.to_json(city_info=False, movie_info=False) for c in self.cinemas],
+            })
+
+        if movie_info:
+            result.update({
+                "movies": [association.movie.to_json(city_info=False) for association in self.movies if association.is_active],
+            })
+
+        return result
 
     def add_to_db(self):
         db.session.add(self)

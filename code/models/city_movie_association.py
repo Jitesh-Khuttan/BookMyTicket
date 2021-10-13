@@ -14,3 +14,19 @@ class CityMovieAssociation(db.Model):
     city = db.relationship("City", back_populates="movies")
     movie = db.relationship("Movie", back_populates="cities")
     
+    def __init__(self, city_id, movie_id, is_active):
+        self.city_id = city_id
+        self.movie_id = movie_id
+        self.is_active = is_active
+
+    def add_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @classmethod
+    def find_by_id(cls, city_id, movie_id):
+        return cls.query.filter_by(city_id=city_id, movie_id=movie_id).first()

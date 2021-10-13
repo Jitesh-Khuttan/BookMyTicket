@@ -9,8 +9,9 @@ class Cinema(db.Model):
     cinema_name = db.Column(db.String(60), nullable=False)
     total_screens = db.Column(db.Integer, nullable=False)
     city_id = db.Column(db.Integer, db.ForeignKey("city.city_id"), nullable=False)
+    movies = db.relationship("Booking", back_populates="cinema")
 
-    def to_json(self, city_info=True):
+    def to_json(self, city_info=True, movie_info=True):
         result =  {
             "cinema_id": self.cinema_id,
             "cinema_name": self.cinema_name,
@@ -21,6 +22,11 @@ class Cinema(db.Model):
             result.update({
                 "city_id": self.city.city_id,
                 "city_name": self.city.city_name,
+            })
+
+        if movie_info:
+            result.update({
+                "movies": [association.to_json() for association in self.movies]
             })
         return result
 

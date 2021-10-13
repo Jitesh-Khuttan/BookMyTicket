@@ -3,6 +3,8 @@ from code.resources.user import UserRegister, User, UserLogin
 from code.resources.city import CityRegister, CityQuery
 from code.resources.movie import MovieRegister, MovieQuery
 from code.resources.cinema import CinemaRegister, CinemaQuery
+from code.resources.city_movie_association import ActivateMovieInCity, DeactivateMovieInCity
+from code.resources.booking import ActivateMovieCinema
 
 def initialize_urls(app):
 	api = Api(app)
@@ -23,5 +25,10 @@ def initialize_urls(app):
 	#Cinema APIs
 	api.add_resource(CinemaRegister, '/cinema')
 	api.add_resource(CinemaQuery, '/cinema/<identifier>')
+
+	#Association APIs
+	api.add_resource(ActivateMovieInCity, '/movie/city/activate')
+	api.add_resource(DeactivateMovieInCity, '/movie/city/deactivate')
+	api.add_resource(ActivateMovieCinema, '/movie/cinema/activate')
 
 	return app

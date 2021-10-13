@@ -39,3 +39,19 @@ def get_cinema_parser(is_post=False):
 		_cinema_parser.add_argument('cinema_id', type=int, required=True, help="Please provide cinema id.")
 
 	return _cinema_parser
+
+def get_city_movie_association_parser():
+	_cm_parser = reqparse.RequestParser()
+	_cm_parser.add_argument('city_id', type=int, required=True, help="Please provide city id.")
+	_cm_parser.add_argument('movie_id', type=int, required=True, help="Please provide movie id.")
+
+	return _cm_parser
+
+def get_movie_cinema_association_parser():
+	_mc_parser = reqparse.RequestParser()
+	_mc_parser.add_argument('cinema_id', type=int, required=True, help="Please provide cinema id.")
+	_mc_parser.add_argument('movie_id', type=int, required=True, help="Please provide movie id.")
+	_mc_parser.add_argument('asof_date', type=str, required=True, help="Please provide asof date (YYYY-MM-DD).")
+	_mc_parser.add_argument('timing', type=str, required=True, help="Please provide movie timings (HH:MM).")
+
+	return _mc_parser
