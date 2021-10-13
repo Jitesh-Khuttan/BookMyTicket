@@ -55,3 +55,13 @@ def get_movie_cinema_association_parser():
 	_mc_parser.add_argument('timing', type=str, required=True, help="Please provide movie timings (HH:MM).")
 
 	return _mc_parser
+
+def get_book_ticket_parser():
+	_ticket_parser = reqparse.RequestParser()
+	_ticket_parser.add_argument('cinema_id', type=int, required=True, help="Please provide cinema id.")
+	_ticket_parser.add_argument('movie_id', type=int, required=True, help="Please provide movie id.")
+	_ticket_parser.add_argument('asof_date', type=str, required=True, help="Please provide asof date (YYYY-MM-DD).")
+	_ticket_parser.add_argument('timing', type=str, required=True, help="Please provide movie timings (HH:MM).")
+	_ticket_parser.add_argument('seats', action='append', required=True, help="Please provide movie seats to book.")
+
+	return _ticket_parser

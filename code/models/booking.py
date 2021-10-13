@@ -1,8 +1,10 @@
 from code.db.alchemy_db import db
 from sqlalchemy.dialects.postgresql import JSON, TIME, DATE
+from sqlalchemy.ext.mutable import MutableDict
 
 import string
 from datetime import datetime
+
 
 class Booking(db.Model):
 
@@ -16,7 +18,7 @@ class Booking(db.Model):
     asof_date = db.Column(DATE(), nullable=False)
     timing = db.Column(TIME(), nullable=False)
     # screen = db.Column(db.Integer, nullable=False)
-    seats = db.Column(JSON)
+    seats = db.Column(MutableDict.as_mutable(JSON))
 
     # Relationships
     cinema = db.relationship("Cinema", back_populates="movies")
@@ -35,13 +37,13 @@ class Booking(db.Model):
 
     def to_json(self):
         availability = {}
-        for k,v in self.seats.items():
-            availability.setdefault('Unavailable' if v else 'Available', []).append(k)
-        
+        for k, v in self.seats.items():
+            availability.setdefault("Unavailable" if v else "Available", []).append(k)
+
         result = {
             "asof_date": self.asof_date.strftime("%Y-%m-%d"),
-            "timing": self.timing.strftime("%H:%m"),
-            "seats": availability
+            "timing": self.timing.strftime("%H:%M"),
+            "seats": availability,
         }
         result.update(self.movie.to_json(city_info=False))
         return result
@@ -65,3 +67,13 @@ class Booking(db.Model):
     @classmethod
     def find_by_id(cls, cinema_id, movie_id):
         return cls.query.filter_by(cinema_id=cinema_id, movie_id=movie_id).first()
+
+    @classmethod
+    def find_by_show(cls, cinema_id, movie_id, asof_date, timing):
+        asof_date, timing = (
+            datetime.strptime(asof_date, "%Y-%m-%d").date(),
+            datetime.strptime(timing, "%H:%M").time(),
+        )
+        return cls.query.filter_by(
+            cinema_id=cinema_id, movie_id=movie_id, asof_date=asof_date, timing=timing
+        ).first()
