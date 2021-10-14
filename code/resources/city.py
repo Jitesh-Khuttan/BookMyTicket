@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from code.models.city import City
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 from code.utils.parsers import get_city_parser
 
 import logging
@@ -9,6 +9,10 @@ import logging
 class CityRegister(Resource):
     @jwt_required()
     def post(self):
+        claims = get_jwt()
+        if not claims["is_admin"]:
+            return {"message": "Operation is only permitted for the admins."}
+
         _city_parser = get_city_parser(is_post=True)
         request_data = _city_parser.parse_args()
         city_name, pincode = request_data["city_name"], request_data["pincode"]
@@ -33,6 +37,10 @@ class CityRegister(Resource):
 
     @jwt_required()
     def patch(self):
+        claims = get_jwt()
+        if not claims["is_admin"]:
+            return {"message": "Operation is only permitted for the admins."}
+            
         _city_parser = get_city_parser(is_post=False)
         request_data = _city_parser.parse_args()
         city_id = request_data["city_id"]
