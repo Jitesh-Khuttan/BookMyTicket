@@ -1,4 +1,5 @@
 import re
+from flask_jwt_extended import jwt_required, get_jwt
 from flask_restful import Resource
 from code.models.city import City
 from code.models.city_movie_association import CityMovieAssociation
@@ -39,7 +40,12 @@ def activate_deactivate_movie(request_data, activate=True):
 
 class ActivateMovieInCity(Resource):
     
+    @jwt_required()
     def put(self):
+        claims = get_jwt()
+        if not claims["is_admin"]:
+            return {"message": "Operation is only permitted for the admins."}
+        
         request_data = _cm_parser.parse_args()
         try:
             response = activate_deactivate_movie(request_data, activate=True)
@@ -50,8 +56,13 @@ class ActivateMovieInCity(Resource):
 
 
 class DeactivateMovieInCity(Resource):
-    
+
+    @jwt_required() 
     def put(self):
+        claims = get_jwt()
+        if not claims["is_admin"]:
+            return {"message": "Operation is only permitted for the admins."}
+        
         request_data = _cm_parser.parse_args()
         try:
             response = activate_deactivate_movie(request_data, activate=False)

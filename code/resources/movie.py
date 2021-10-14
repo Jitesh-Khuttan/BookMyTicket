@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from code.models.movie import Movie
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 from code.utils.parsers import get_movie_parser
 import logging
 
@@ -8,6 +8,10 @@ import logging
 class MovieRegister(Resource):
     @jwt_required()
     def post(self):
+        claims = get_jwt()
+        if not claims["is_admin"]:
+            return {"message": "Operation is only permitted for the admins."}
+
         _movie_parser = get_movie_parser(is_post=True)
         request_data = _movie_parser.parse_args()
         movie_name, description = (
@@ -34,6 +38,10 @@ class MovieRegister(Resource):
 
     @jwt_required()
     def patch(self):
+        claims = get_jwt()
+        if not claims["is_admin"]:
+            return {"message": "Operation is only permitted for the admins."}
+        
         _movie_parser = get_movie_parser(is_post=False)
         request_data = _movie_parser.parse_args()
         movie_id = request_data["movie_id"]

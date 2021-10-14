@@ -1,3 +1,4 @@
+from flask_jwt_extended import jwt_required, get_jwt
 from flask_restful import Resource
 from code.models.cinema import Cinema
 from code.models.movie import Movie
@@ -13,6 +14,7 @@ from datetime import date, datetime
 
 class BookTicket(Resource):
     
+    @jwt_required()
     def patch(self):
         _ticket_parser = get_book_ticket_parser()
         request_data = _ticket_parser.parse_args()
@@ -36,7 +38,12 @@ class BookTicket(Resource):
             return {"message": "No movie show found for the given details!"}, 404
 
 class ActivateMovieCinema(Resource):
+
+    @jwt_required()
     def post(self):
+        claims = get_jwt()
+        if not claims["is_admin"]:
+            return {"message": "Operation is only permitted for the admins."}
         _cm_parser = get_movie_cinema_association_parser()
         request_data = _cm_parser.parse_args()
         cinema_id, movie_id, asof_date = (

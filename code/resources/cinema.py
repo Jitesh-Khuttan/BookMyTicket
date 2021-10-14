@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from code.models.cinema import Cinema
 from code.models.city import City
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 from code.utils.parsers import get_cinema_parser
 
 import logging
@@ -10,6 +10,10 @@ import logging
 class CinemaRegister(Resource):
     @jwt_required()
     def post(self):
+        claims = get_jwt()
+        if not claims["is_admin"]:
+            return {"message": "Operation is only permitted for the admins."}
+        
         _cinema_parser = get_cinema_parser(is_post=True)
         request_data = _cinema_parser.parse_args()
         cinema_name = request_data["cinema_name"]
@@ -32,6 +36,10 @@ class CinemaRegister(Resource):
 
     @jwt_required()
     def patch(self):
+        claims = get_jwt()
+        if not claims["is_admin"]:
+            return {"message": "Operation is only permitted for the admins."}
+        
         _cinema_parser = get_cinema_parser(is_post=False)
         request_data = _cinema_parser.parse_args()
         cinema_id = request_data["cinema_id"]
