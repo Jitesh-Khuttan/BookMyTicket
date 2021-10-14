@@ -10,7 +10,7 @@ By default, application will use SQLlite when executed on local system. If you w
 > Eg:- postgresql://database_username:password@localhost/databasename
 
 ## Postman Collection
-Postman collection has been uploaded as the part of project itself. It consists of all the endpoints that application exposes. Collection uses an environment which consist of few variables. <b> {{base_url}} </b> by default points to heroku url (where this app is hosted). If running on a local system, please change this variable to your localhost url. (Eg:- http://127.0.0.1:5000/)
+Postman collection has been uploaded as the part of project itself. It consists of all the endpoints that application exposes. Collection uses an environment which consist of few variables. <b> {{base_url}} </b> by default points to heroku url (where this app is hosted - https://bookmyticket-flask.herokuapp.com). If running on a local system, please change this variable to your localhost url. (Eg:- http://127.0.0.1:5000/)
 
 ## Entity-Relationship Diagram
 The normalized database design of the application has also been uploaded as part of the project. Please have a look to understand the low level design better.
@@ -73,8 +73,27 @@ Following are traits of the application:
         <b> required </b>: movie_id, city_id  
         Eg:- `{ "movie_id": 1, "city_id": 2 }` 
     
-    - <b> /movie/add-show </b> [POST] (<i><b> protected & admin access required </b> </i>): This endpoint is used to add show in particular cinema.  
+    - <b> /movie/cinema/activate </b> [POST] (<i><b> protected & admin access required </b> </i>): This endpoint is used to add show in particular cinema.  
         <b> payload fields: </b> movie_id (int), cinema_id (int), asof_date (str: YYYY-MM-DD), timing (str: HH:MM)  
         <b> required </b>: movie_id, cinema_id, asof_date, timing    
         Eg:- `{ "movie_id": 1, "cinema_id": 2,  "asof_date": "2021-10-20", "timing": "5:30"}
-
+ 
+4. Cinema API:
+      - <b> /cinema </b> [POST] (<i><b> protected & admin access required </b> </i>): This endpoint is used to add cinema into some particular city.
+        <b> payload fields: </b> cinema_name (str), total_screens (int), city_id (int)   
+        <b> required </b>: cinema_name, total_screens, city_id     
+        Eg:- `{ "cinema_name": "Picadilly", "total_screens": 4, "city_id": 1 }`  
+  
+      - <b> /cinema </b> [PATCH] (<i><b> protected & admin access required </b> </i>): This endpoint is used to update cinema information.  
+        <b> payload fields: </b> cinema_id (int), total_screens (int), city_id (int)  
+        <b> required </b>: cinema_id, (total_screens, city_id - atleast one required) .  
+        Eg:- `{ "cinema_id": 1, "total_screens": 5 }`  
+    
+      - <b> /cinema/\<int:identifier\> </b> [GET] (<i><b> public access </b> </i>): This endpoint is used to find out cinema information. It lists down all the playing movies along with showtimes.  
+    
+5. Booking API:
+      - <b> /bookticket </b> [POST] (<i><b> protected & login access required (any user) </b> </i>): This endpoint is used to book tickets for a show.  
+        <b> payload fields: </b> movie_id (int), cinema_id (int), asof_date (str: YYYY-MM-DD), timing (str: HH:MM), seats (list)   
+        <b> required </b>: movie_id, cinema_id, asof_date, timing, seats    
+        Eg:- `{ "movie_id": 1, "cinema_id": 1, "asof_date": "2021-10-20", "timing": "5:30", "seats": ["A1", "A2"] }`   
+    
