@@ -45,8 +45,36 @@ Following are traits of the application:
   
       - <b> /city </b> [PATCH] (<i><b> protected & admin access required </b> </i>): This endpoint is used to update city information.  
         <b> payload fields: </b> city_id (int), city_name (str), pincode (int)  
-        <b> required </b>: city_id, (city_name, pincode) - atleast one required.  
+        <b> required </b>: city_id, (city_name, pincode - atleast one required) .  
         Eg:- `{ "city_id": 1, "city_name": "Chandigarh", "pincode": 160015 }`  
+    
+      - <b> /city/\<identifier\> </b> [GET] (<i><b> public access </b> </i>): This endpoint is used to find out city information. It also lists down all the cinemas in city & the movies playing in city. <b>"identifier" </b> can either be city name or city id.
+  
+3. Movie API:
+      - <b> /movie </b> [POST] (<i><b> protected & admin access required </b> </i>): This endpoint is used to add movie to the application. Any new movie that comes in the market is first added to database using this API.  
+        <b> payload fields: </b> movie_name (str), description (str)  
+        <b> required </b>: movie_name, description  
+        Eg:- `{ "movie_name": "Avengers", "description": "An excellent Marvels movie with multiple heroes!!" }`  
+    
+     - <b> /movie </b> [PATCH] (<i><b> protected & admin access required </b> </i>): This endpoint is used to update any information regarding movie.  
+        <b> payload fields: </b> movie_id (int), movie_name (str), description (str)   
+        <b> required </b>: movie_id, (movie_name, description - atleast one required)   
+        Eg:- `{ "movie_id": 1, "description": "An excellent Marvels movie with great heroes!" }`  
 
-
+     - <b> /movie/\<identifier\> </b> [GET] (<i><b> public access </b> </i>): This endpoint is used to get information regarding movie. It lists down all the cities in which this movie is currently running, along with the cinemas in each city. <b>"identifier"</b> can either be movie name or movie id.
+    
+    - <b> /movie/city/activate </b> [PUT] (<i><b> protected & admin access required </b> </i>): This endpoint is used to activate the movie in some city. Let's say some movie 'X' comes in the market, so admin has to explicitily activate it in the cities where the movie is allowed to play.  
+        <b> payload fields: </b> movie_id (int), city_id (int)  
+        <b> required </b>: movie_id, city_id  
+        Eg:- `{ "movie_id": 1, "city_id": 2 }` 
+    
+    - <b> /movie/city/deactivate </b> [PUT] (<i><b> protected & admin access required </b> </i>): This endpoint is used to deactivate the movie in some city. Let's say the government decides to take down (or ban) some movie in some city. All the admin has to do is deactivate it in order to take the movie down in particular city from the application.  
+        <b> payload fields: </b> movie_id (int), city_id (int)  
+        <b> required </b>: movie_id, city_id  
+        Eg:- `{ "movie_id": 1, "city_id": 2 }` 
+    
+    - <b> /movie/add-show </b> [POST] (<i><b> protected & admin access required </b> </i>): This endpoint is used to add show in particular cinema.  
+        <b> payload fields: </b> movie_id (int), cinema_id (int), asof_date (str: YYYY-MM-DD), timing (str: HH:MM)  
+        <b> required </b>: movie_id, cinema_id, asof_date, timing    
+        Eg:- `{ "movie_id": 1, "cinema_id": 2,  "asof_date": "2021-10-20", "timing": "5:30"}
 
