@@ -44,6 +44,10 @@ class City(db.Model):
     @classmethod
     def find_by_name(cls, city_name):
         return cls.query.filter_by(city_name=city_name).all()
+    
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()
 
 
 if __name__ == "__main__":

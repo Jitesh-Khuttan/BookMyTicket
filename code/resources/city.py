@@ -79,3 +79,8 @@ class CityQuery(Resource):
         return {
             "message": f"No city with {'id' if is_digit else 'name'} '{identifier}' found!"
         }, 404
+
+class CityList(Resource):
+
+    def get(self):
+        return [city.to_json(cinema_info=False, movie_info=False) for city in City.find_all()], 200
