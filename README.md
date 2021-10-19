@@ -38,6 +38,8 @@ Following are traits of the application:
     - <b> /user/\<string:username\> </b> [GET]: This endpoint returns the user id & username registered in the DB. 
   
 2. City API:
+      - <b> /cities </b> [GET] (<i><b> public access </b> </i>): This endpoint is used to find all the cities supported by the application.  
+    
       - <b> /city </b> [POST] (<i><b> protected & admin access required </b> </i>): This endpoint is used to add city to the application. Let's say if our business expands to multiple regions, we will use this endpoint to add city information.  
         <b> payload fields: </b> city_name (str), pincode (int)  
         <b> required </b>: city_name, pincode  
