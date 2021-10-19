@@ -1,6 +1,6 @@
 from flask_restful import Api
 from code.resources.user import UserRegister, User, UserLogin
-from code.resources.city import CityRegister, CityQuery
+from code.resources.city import CityRegister, CityQuery, CityList
 from code.resources.movie import MovieRegister, MovieQuery
 from code.resources.cinema import CinemaRegister, CinemaQuery
 from code.resources.city_movie_association import ActivateMovieInCity, DeactivateMovieInCity
@@ -19,6 +19,7 @@ def initialize_urls(app):
 	api.add_resource(User, '/user/<string:name>')
 
 	#City APIs
+	api.add_resource(CityList, '/cities')
 	api.add_resource(CityRegister, '/city')
 	api.add_resource(CityQuery, '/city/<identifier>')
 

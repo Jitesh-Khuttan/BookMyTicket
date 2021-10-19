@@ -40,7 +40,7 @@ class CityRegister(Resource):
         claims = get_jwt()
         if not claims["is_admin"]:
             return {"message": "Operation is only permitted for the admins."}
-            
+
         _city_parser = get_city_parser(is_post=False)
         request_data = _city_parser.parse_args()
         city_id = request_data["city_id"]
@@ -79,3 +79,11 @@ class CityQuery(Resource):
         return {
             "message": f"No city with {'id' if is_digit else 'name'} '{identifier}' found!"
         }, 404
+
+
+class CityList(Resource):
+    def get(self):
+        return [
+            city.to_json(cinema_info=False, movie_info=False)
+            for city in City.find_all()
+        ], 200

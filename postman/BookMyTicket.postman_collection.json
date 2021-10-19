@@ -146,7 +146,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"city_id\": 1,\n    \"pincode\": 144001\n}",
+							"raw": "{\n    \"city_id\": 2,\n    \"pincode\": 124567,\n    \"city_name\": \"Chandigarh\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -167,6 +167,24 @@
 				},
 				{
 					"name": "/city/<identifier>",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/city/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"city",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/cities",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -390,7 +408,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cinema_name\": \"MBD\",\n    \"total_screens\": 6,\n    \"city_id\": 1\n}",
+							"raw": "{\n    \"cinema_name\": \"Picadilly Cinema\",\n    \"total_screens\": 3,\n    \"city_id\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
